@@ -1,5 +1,5 @@
 {
-  "name": "data-export",
+  "name": "export-api",
   "version": "1.0.1",
   "private": true,
   "main": "src/transformApp.js",
@@ -19,10 +19,12 @@
     "compression": "^1.7.1",
     "debug": "^2.6.8",
     "express": "^4.15.3",
+    "influx": "^5.0.7",
     "lodash": "^4.17.4",
+    "moment": "^2.19.1",
     "sanitize-filename": "^1.6.1",
     "sequelize": "^3.30.4",
-    "uuid": "^3.0.1",
+    "uuid": "^3.1.0",
     "webworker-threads": "^0.7.11"
   },
   "devDependencies": {
@@ -32,6 +34,7 @@
     "@types/gulp-shell": "^0.0.30",
     "@types/lodash": "^4.14.64",
     "@types/sanitize-filename": "^1.1.28",
+    "@types/uuid": "^3.4.3",
     "gulp": "^3.9.1",
     "gulp-shell": "^0.6.3",
     "typescript": "^2.3.4"

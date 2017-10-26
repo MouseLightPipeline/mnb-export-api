@@ -34,7 +34,7 @@ export class PersistentStorageManager {
                         },
                         fields: {
                             format: exportRequest.format,
-                            ids: exportRequest.format,
+                            ids: exportRequest.ids,
                             userName: exportRequest.userName,
                             duration: exportRequest.duration
                         }
@@ -66,7 +66,7 @@ function establishInfluxConnection() {
                         format: Influx.FieldType.INTEGER,
                         ids: Influx.FieldType.STRING,
                         userName: Influx.FieldType.STRING,
-                        duration: Influx.FieldType.INTEGER
+                        duration: Influx.FieldType.FLOAT
                     },
                     tags: [
                         "host",

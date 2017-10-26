@@ -7,7 +7,8 @@ const debug = require("debug")("ndb:transform:server");
 
 import {ServiceOptions} from "./serviceOptions";
 
-import {swcExportMiddleware} from "./swxExportMiddleware";
+import {swcExportMiddleware} from "./swcExportMiddleware";
+import {jsonExportMiddleware} from "./jsonExportMiddleware";
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(bodyParser.json());
 
 app.use("/swc", swcExportMiddleware);
 
-app.use("/json", swcExportMiddleware);
+app.use("/json", jsonExportMiddleware);
 
 const server = createServer(app);
 

@@ -1,7 +1,10 @@
-import * as fs from "fs";
+export enum ExportFormat {
+    SWC = 0,
+    JSON = 1
+}
+
 
 import {Databases} from "./databaseOptions";
-import * as path from "path";
 
 export interface IServerOptions {
     port: number;
@@ -27,7 +30,7 @@ interface IConfiguration<T> {
 const configurations: IConfiguration<IServiceOptions> = {
     development: {
         envName: "",
-        dataPath: "",
+        dataPath: "/opt/data/export",
         serverOptions: {
             port: 9691
         },
@@ -37,7 +40,7 @@ const configurations: IConfiguration<IServiceOptions> = {
     },
     azure: {
         envName: "",
-        dataPath: "",
+        dataPath: "/opt/data/export",
         serverOptions: {
             port: 9691
         },
@@ -47,7 +50,7 @@ const configurations: IConfiguration<IServiceOptions> = {
     },
     production: {
         envName: "",
-        dataPath: "",
+        dataPath: "/opt/data/export",
         serverOptions: {
             port: 9691
         },

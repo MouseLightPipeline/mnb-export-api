@@ -1,8 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as Archiver from "archiver";
+import * as uuid from "uuid";
 
 import {PersistentStorageManager} from "./databaseConnector";
-import {ServiceOptions} from "./serviceOptions";
+import {ExportFormat, ServiceOptions} from "./serviceOptions";
+import moment = require("moment");
 
 const dataMap = new Map<string, string>();
 
@@ -12,7 +15,6 @@ function cacheData() {
     const dataLocation = path.join(ServiceOptions.dataPath, "swc");
 
     fs.readdirSync(dataLocation).forEach(file => {
-
         if (file.slice(-4) === ".swc") {
             const swcName = file.slice(0, -4);
 
@@ -24,19 +26,86 @@ function cacheData() {
 }
 
 export async function swcExportMiddleware(req, res) {
-    const ids = req.body.ids;
+    const t1 =  process.hrtime();
 
-    console.log(ids);
+    const ids = req.body.ids;
 
     if (!ids || ids.length === 0) {
         res.json(null);
         return;
     }
 
-    const data = dataMap.get(ids[0]);
+    if (ids.length === 1) {
+        let encoded = null;
 
-    res.set("Content-Type", "text/plain");
-    res.send(data);
+        const data = dataMap.get(ids[0]);
+
+        if (data) {
+            encoded = new Buffer(`# Generated ${moment().format("YYYY/MM/DD")}. \n` + data).toString("base64");
+
+            const t2 = process.hrtime(t1);
+
+            await PersistentStorageManager.Instance().logExport({
+                host: req.ip,
+                userId: "(unknown)",
+                format: ExportFormat.SWC,
+                ids: ids.join(", "),
+                userName: "(unknown)",
+                duration: t2[0] + t2[1] / 1000000000
+            });
+        }
+
+        res.json({
+            contents: encoded,
+            filename: ids[0] + ".swc"
+        });
+    } else {
+        const tempFile = uuid.v4();
+
+        const response = await new Promise(async (resolve) => {
+            const output = fs.createWriteStream(tempFile);
+
+            output.on("finish", () => {
+                const readData = fs.readFileSync(tempFile);
+
+                const encoded = readData.toString("base64");
+
+                fs.unlinkSync(tempFile);
+
+                resolve({
+                    contents: encoded,
+                    filename: "mlnb-export-data.zip"
+                });
+            });
+
+            const archive = Archiver("zip", {zlib: {level: 9}});
+
+            archive.pipe(output);
+
+            ids.forEach(id => {
+                const data = dataMap.get(id);
+
+                if (data) {
+                    archive.append(`# Generated ${moment().format("YYYY/MM/DD")}. \n` + data, {name: id + ".swc"});
+                }
+            });
+
+            await archive.finalize();
+
+            const t2 = process.hrtime(t1);
+
+            await PersistentStorageManager.Instance().logExport({
+                host: req.ip,
+                userId: "(unknown)",
+                format: ExportFormat.SWC,
+                ids: ids.join(", "),
+                userName: "(unknown)",
+                duration: t2[0]+ t2[1]/1000000000
+            });
+        });
+
+        res.json(response);
+    }
 }
 
 /*
