@@ -51,7 +51,7 @@ export async function jsonExportMiddleware(req, res) {
     const t2 = process.hrtime(t1);
 
     await PersistentStorageManager.Instance().logExport({
-        host: req.ip,
+        host: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
         userId: "(unknown)",
         format: ExportFormat.JSON,
         ids: ids.join(", "),

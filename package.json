@@ -1,6 +1,6 @@
 {
   "name": "export-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "main": "src/transformApp.js",
   "repository": "https://github.com/MouseLightPipeline/mlnb-export.git",

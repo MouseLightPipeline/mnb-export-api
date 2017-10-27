@@ -46,7 +46,7 @@ export async function swcExportMiddleware(req, res) {
             const t2 = process.hrtime(t1);
 
             await PersistentStorageManager.Instance().logExport({
-                host: req.ip,
+                host: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
                 userId: "(unknown)",
                 format: ExportFormat.SWC,
                 ids: ids.join(", "),
@@ -95,7 +95,7 @@ export async function swcExportMiddleware(req, res) {
             const t2 = process.hrtime(t1);
 
             await PersistentStorageManager.Instance().logExport({
-                host: req.ip,
+                host: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
                 userId: "(unknown)",
                 format: ExportFormat.SWC,
                 ids: ids.join(", "),
