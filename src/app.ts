@@ -1,22 +1,19 @@
 import {createServer} from "http";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import * as compression from "compression";
 
-const debug = require("debug")("ndb:transform:server");
+const debug = require("debug")("mdb:export-api:server");
 
-import {ServiceOptions} from "./serviceOptions";
+import {ServiceOptions} from "./options/serviceOptions";
 
-import {swcExportMiddleware} from "./swcExportMiddleware";
-import {jsonExportMiddleware} from "./jsonExportMiddleware";
+import {swcExportMiddleware} from "./middleware/swcExportMiddleware";
+import {jsonExportMiddleware} from "./middleware/jsonExportMiddleware";
 
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(bodyParser.json());
-
-// app.use(compression);
 
 app.use("/swc", swcExportMiddleware);
 

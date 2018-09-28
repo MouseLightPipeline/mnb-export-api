@@ -1,9 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-
-import {PersistentStorageManager} from "./databaseConnector";
-import {ExportFormat, ServiceOptions} from "./serviceOptions";
 import moment = require("moment");
+
+const debug = require("debug")("mnb:export-api:json");
+
+import {MetricsStorageManager} from "../metricsStorageManager";
+import {ServiceOptions} from "../options/serviceOptions";
+import {ExportFormat} from "./exportFormat";
 
 const dataMap = new Map<string, string>();
 
@@ -11,6 +14,13 @@ cacheData();
 
 function cacheData() {
     const dataLocation = path.join(ServiceOptions.dataPath, "json");
+
+    if (!fs.existsSync(dataLocation)) {
+        debug("json data path does not exist");
+        return;
+    }
+
+    debug("initiating json cache load");
 
     fs.readdirSync(dataLocation).forEach(file => {
         if (file.slice(-5) === ".json") {
@@ -20,7 +30,9 @@ function cacheData() {
 
             dataMap.set(swcName, JSON.parse(data).neuron);
         }
-    })
+    });
+
+    debug(`loaded ${dataMap.size} neurons (json)`);
 }
 
 export async function jsonExportMiddleware(req, res) {
@@ -50,7 +62,7 @@ export async function jsonExportMiddleware(req, res) {
 
     const t2 = process.hrtime(t1);
 
-    await PersistentStorageManager.Instance().logExport({
+    await MetricsStorageManager.Instance().logExport({
         host: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
         userId: "(unknown)",
         format: ExportFormat.JSON,

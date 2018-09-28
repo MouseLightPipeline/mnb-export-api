@@ -1,42 +1,36 @@
 {
-  "name": "export-api",
-  "version": "1.0.2",
+  "name": "mnb-export-api",
+  "version": "1.4.0",
   "private": true,
-  "main": "src/transformApp.js",
-  "repository": "https://github.com/MouseLightPipeline/mlnb-export.git",
+  "main": "src/app.js",
+  "repository": "https://github.com/MouseLightPipeline/mnb-export-api.git",
   "author": "Patrick Edson <pedson@leapscientific.com>",
-  "license": "Janelia",
+  "license": "SEE LICENSE IN LICENSE",
   "dockerRepository": "mouselightdatabrowser",
+  "dockerImageName": "export-api",
   "scripts": {
-    "start": "node --max-old-space-size=4096 --optimize-for-size src/transformApp.js",
-    "dev": "DEBUG=ndb:* node --trace-warnings --max-old-space-size=4096 --optimize-for-size $NODE_DEBUG_OPTION src/transformApp.js",
+    "start": "node src/app.js",
+    "dev": "DEBUG=mnb:* node --trace-warnings $NODE_DEBUG_OPTION src/app.js",
     "docker-build": "gulp docker-build",
     "release": "gulp release"
   },
   "dependencies": {
     "archiver": "^2.0.3",
     "body-parser": "^1.17.2",
-    "compression": "^1.7.1",
     "debug": "^2.6.8",
     "express": "^4.15.3",
     "influx": "^5.0.7",
-    "lodash": "^4.17.4",
     "moment": "^2.19.1",
-    "sanitize-filename": "^1.6.1",
-    "sequelize": "^3.30.4",
-    "uuid": "^3.1.0",
-    "webworker-threads": "^0.7.11"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@types/archiver": "^2.0.0",
     "@types/express": "^4.0.35",
-    "@types/gulp": "^4.0.3",
+    "@types/gulp": "3",
     "@types/gulp-shell": "^0.0.30",
     "@types/lodash": "^4.14.64",
-    "@types/sanitize-filename": "^1.1.28",
     "@types/uuid": "^3.4.3",
     "gulp": "^3.9.1",
-    "gulp-shell": "^0.6.3",
-    "typescript": "^2.3.4"
+    "gulp-shell": "^0.6.3"
   }
 }
