@@ -2,4 +2,4 @@
 
 export DEBUG=mnb*
 
-node src/app.js
+node app.js
