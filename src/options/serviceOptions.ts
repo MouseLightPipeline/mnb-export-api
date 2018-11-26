@@ -1,15 +1,14 @@
 const configuration = {
-    envName: "",
-    dataPath: "/opt/data/export",
-    serverOptions: {
-        port: 9691
-    }
+    port: 5000,
+    dataPath: "/opt/data/export"
 };
 
 function loadConfiguration() {
     const options = Object.assign({}, configuration);
 
-    options.dataPath = process.env.EXPORT_DATA_PATH || options.dataPath;
+
+    options.port = parseInt(process.env.EXPORT_API_PORT) || options.port;
+    options.dataPath = process.env.EXPORT_API_DATA_PATH || options.dataPath;
 
     return options;
 }
