@@ -12,7 +12,7 @@
     "start": "node src/app.js",
     "dev": "DEBUG=mnb:* node --trace-warnings $NODE_DEBUG_OPTION src/app.js",
     "docker-build": "gulp docker-build",
-    "release": "gulp release"
+    "docker-release": "gulp release"
   },
   "dependencies": {
     "archiver": "^2.0.3",
