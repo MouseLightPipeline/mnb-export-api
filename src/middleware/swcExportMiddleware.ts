@@ -45,8 +45,11 @@ export async function swcExportMiddleware(req, res) {
     let response = null;
 
     if (!ids || ids.length === 0) {
+        debug(`null swc id request`);
         response = null;
     } else if (ids.length === 1) {
+        debug(`handling swc request for id: ${ids[0]}`);
+
         let encoded = null;
 
         const data = dataMap.get(ids[0]);
@@ -71,6 +74,9 @@ export async function swcExportMiddleware(req, res) {
             filename: ids[0] + ".swc"
         };
     } else {
+        debug(`handling swc request for ids:`);
+        debug(`${ids}`);
+
         const tempFile = uuid.v4();
 
         response = await new Promise(async (resolve) => {

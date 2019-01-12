@@ -41,9 +41,13 @@ export async function jsonExportMiddleware(req, res) {
     const ids = req.body.ids;
 
     if (!ids || ids.length === 0) {
+        debug(`null json id request`);
         res.json(null);
         return;
     }
+
+    debug(`handling json request for ids:`);
+    debug(`${ids}`);
 
     const base = {
         comment: `Generated ${moment().format("YYYY/MM/DD")}. Please consult Terms-of-Use at https://mouselight.janelia.org when referencing this reconstruction.`,
