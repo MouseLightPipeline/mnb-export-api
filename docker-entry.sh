@@ -6,4 +6,4 @@ mkdir -p /var/log/mnb
 
 export DEBUG=mnb*
 
-node app.js >> /var/log/mnb/export-api-${logName}.log 2>&1
+node app.js >> /var/log/mnb/${HOSTNAME}-${logName}.log 2>&1
