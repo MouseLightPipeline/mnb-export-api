@@ -1,6 +1,6 @@
 {
   "name": "mnb-export-api",
-  "version": "1.4.0",
+  "version": "1.6.1",
   "private": true,
   "main": "src/app.js",
   "repository": "https://github.com/MouseLightPipeline/mnb-export-api.git",
@@ -9,10 +9,14 @@
   "dockerRepository": "mouselightdatabrowser",
   "dockerImageName": "export-api",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "DEBUG=mnb:* node --trace-warnings $NODE_DEBUG_OPTION src/app.js",
-    "docker-build": "gulp docker-build",
-    "docker-release": "gulp release"
+    "debug": "node --trace-warnings $NODE_DEBUG_OPTION src/app.js",
+    "start": "tsc && gulp build && cd dist && node --trace-deprecation app.js",
+    "clean": "tsc && gulp clean",
+    "compile": "tsc && gulp compile",
+    "build": "tsc && gulp build",
+    "docker-build": "tsc && gulp docker-build",
+    "docker-release": "tsc && gulp release"
+
   },
   "dependencies": {
     "archiver": "^2.0.3",
@@ -26,11 +30,14 @@
   "devDependencies": {
     "@types/archiver": "^2.0.0",
     "@types/express": "^4.0.35",
-    "@types/gulp": "3",
-    "@types/gulp-shell": "^0.0.30",
+    "@types/gulp": "^4.0.7",
+    "@types/gulp-shell": "^0.7.0",
     "@types/lodash": "^4.14.64",
     "@types/uuid": "^3.4.3",
-    "gulp": "^3.9.1",
-    "gulp-shell": "^0.6.3"
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-shell": "^0.8.0",
+    "merge-stream": "^2.0.0"
+
   }
 }
