@@ -3,9 +3,12 @@ import {FieldType, InfluxDB} from "influx";
 const debug = require("debug")("mnb:export-api:metrics");
 
 import {MetricsOptions} from "./options/databaseOptions";
+import {CcfVersion, ExportFormat} from "./export/exportCacheBase";
 
 export interface IExportRequest {
-    format: number,
+    // @ts-ignore
+    format: ExportFormat,
+    ccfVersion: CcfVersion
     ids: string;
     host: string;
     userName: string;
@@ -34,6 +37,7 @@ export class MetricsStorageManager {
                         },
                         fields: {
                             format: exportRequest.format,
+                            ccfVersion: exportRequest.ccfVersion,
                             ids: exportRequest.ids,
                             userName: exportRequest.userName,
                             duration: exportRequest.duration
@@ -76,6 +80,7 @@ async function establishConnection(): Promise<InfluxDB> {
                 measurement: MetricsOptions.measurement,
                 fields: {
                     format: FieldType.INTEGER,
+                    ccfVersion: FieldType.INTEGER,
                     ids: FieldType.STRING,
                     userName: FieldType.STRING,
                     duration: FieldType.FLOAT

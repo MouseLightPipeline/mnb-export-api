@@ -38,6 +38,5 @@
     "gulp": "^4.0.2",
     "gulp-shell": "^0.8.0",
     "merge-stream": "^2.0.0"
-
   }
 }
