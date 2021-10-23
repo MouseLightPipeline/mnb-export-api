@@ -9,7 +9,7 @@
   "dockerRepository": "mouselightdatabrowser",
   "dockerImageName": "export-api",
   "scripts": {
-    "debug": "node --trace-warnings $NODE_DEBUG_OPTION src/app.js",
+    "debug": "node --trace-warnings src/app.js",
     "start": "tsc && gulp build && cd dist && node --trace-deprecation app.js",
     "clean": "tsc && gulp clean",
     "compile": "tsc && gulp compile",
