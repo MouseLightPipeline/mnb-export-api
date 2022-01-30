@@ -1,6 +1,6 @@
 {
   "name": "mnb-export-api",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "private": true,
   "main": "src/app.js",
   "repository": "https://github.com/MouseLightPipeline/mnb-export-api.git",
@@ -16,7 +16,6 @@
     "build": "tsc && gulp build",
     "docker-build": "tsc && gulp docker-build",
     "docker-release": "tsc && gulp release"
-
   },
   "dependencies": {
     "archiver": "^2.0.3",
