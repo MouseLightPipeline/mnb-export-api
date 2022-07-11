@@ -20,24 +20,32 @@ function cacheData() {
         return;
     }
 
+    /*
     debug("initiating json cache load");
 
     fs.readdirSync(dataLocation).forEach(file => {
         if (file.slice(-5) === ".json") {
-            const swcName = file.slice(0, -5);
+            const jsonName = file.slice(0, -5);
 
             const data = fs.readFileSync(path.join(dataLocation, file), {encoding: "utf8"});
 
-            dataMap.set(swcName, JSON.parse(data).neuron);
+            dataMap.set(jsonName, JSON.parse(data).neuron);
         }
     });
 
     debug(`loaded ${dataMap.size} neurons (json)`);
+     */
 }
 
 export async function jsonExportMiddleware(req, res) {
     const t1 = process.hrtime();
 
+    const dataLocation = path.join(ServiceOptions.dataPath, "json");
+
+    if (!fs.existsSync(dataLocation)) {
+        debug("json data path does not exist");
+        return;
+    }
     const ids = req.body.ids;
 
     if (!ids || ids.length === 0) {
@@ -55,11 +63,15 @@ export async function jsonExportMiddleware(req, res) {
     };
 
     const contents = ids.reduce((prev, id) => {
-        const data = dataMap.get(id);
+        // const data = dataMap.get(id);
 
-        if (data) {
-            prev.neurons.push(data);
-        }
+        try {
+            const data = fs.readFileSync(path.join(dataLocation, id + ".json"), {encoding: "utf8"});
+
+            if (data) {
+                prev.neurons.push(JSON.parse(data).neuron);
+            }
+        } catch {}
 
         return prev;
     }, base);
